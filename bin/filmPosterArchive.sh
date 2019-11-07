@@ -25,7 +25,7 @@ postToArweave ()
 {
 
   local FILE="$1"
-  curl -k -X POST -F "image=@${FILE}" http://localhost:1908/raw
+  curl -s -k -X POST -F "image=@${FILE}" http://localhost:1908/raw
 
 }
 
