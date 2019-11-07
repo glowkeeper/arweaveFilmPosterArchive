@@ -9,17 +9,40 @@ usage ()
 
 testHooverD ()
 {
+
   PORT=1908
   if [ -z "$(lsof -t -i:${PORT})" ]
   then
+
     echo "error: ensure hooverd is running on port ${PORT}"
     exit 1
+
   fi
+
+}
+
+postToArweave ()
+{
+
+  local FILE="$1"
+  curl -k -X POST -F "image=@${FILE}" http://localhost:1908/raw
+
+}
+
+getNumPages ()
+{
+
+  TMP_FILE="/tmp/${TMP_FILENAME}"
+  curl -s ${BASE_URL} > ${TMP_FILE}
+  echo "$(jq '.total_pages' ${TMP_FILE})"
+  rm ${TMP_FILE}
+
 }
 
 getImages ()
 {
 
+  local NUM_PAGES=$1
   let COUNTER=1
   while [ ${COUNTER} -le ${NUM_PAGES} ];
   do
@@ -37,8 +60,10 @@ getImages ()
 
         THIS_POSTER=$(echo $POSTER | sed 's/"//g')
         THIS_POSTER_URL="${BASE_TMDB_IMAGE_URL}${THIS_POSTER}"
-        curl -s ${THIS_POSTER_URL} > /tmp/${THIS_POSTER}
-
+        TEMP_POSTER="/tmp${THIS_POSTER}"
+        curl -s ${THIS_POSTER_URL} > ${TEMP_POSTER}
+        postToArweave ${TEMP_POSTER}
+        rm ${TEMP_POSTER}
       fi
 
     done
@@ -59,10 +84,9 @@ API_KEY=""
 BASE_TMDB_IMAGE_URL="https://image.tmdb.org/t/p/original"
 BASE_TMDB_DISCOVER_URL="https://api.themoviedb.org/3/discover/movie"
 
-DATE_YESTERDAY=$(date --date yesterday '+%Y-%m-%d')
 DATE_TODAY=$(date --date today '+%Y-%m-%d')
-RELEASE_YESTERDAY="&primary_release_date.gte=${DATE_YESTERDAY}"
-RELEASE_TODAY="&primary_release_date.lte=${DATE_TODAY}"
+RELEASE_FIRST="&primary_release_date.gte=${DATE_TODAY}"
+RELEASE_LAST="&primary_release_date.lte=${DATE_TODAY}"
 
 ADULT="&include_adult=true"
 MOVIE="&include_video=true"
@@ -89,15 +113,10 @@ then
 
 fi
 
-BASE_URL="${BASE_TMDB_DISCOVER_URL}${API_KEY}${MOVIE}${ADULT}${RELEASE_YESTERDAY}${RELEASE_TODAY}"
-
+BASE_URL="${BASE_TMDB_DISCOVER_URL}${API_KEY}${MOVIE}${ADULT}${RELEASE_FIRST}${RELEASE_LAST}"
 TMP_FILENAME="tmdb.json"
-TMP_FILE="/tmp/${TMP_FILENAME}"
 
-curl -s ${BASE_URL} > ${TMP_FILE}
-NUM_PAGES=$(jq '.total_pages' ${TMP_FILE})
+NUM_PAGES=$(getNumPages)
+getImages $NUM_PAGES
 
-getImages
-
-rm ${TMP_FILE}
 exit 0
