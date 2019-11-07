@@ -1,7 +1,7 @@
 # Arweave Film Poster Archiver
 
 [![standard-readme compliant](https://img.shields.io/badge/readme%20style-standard-brightgreen.svg?style=flat-square)](https://github.com/RichardLitt/standard-readme)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](/docs/prs.md) [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](/docs/COPYING.txt)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](/docs/prs.md) [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](/docs/LICENSE.txt)
 
 This is the repository of [filmPosterArchive](/bin/filmPosterArchive.sh) - a tool for grabbing the day's latest posters from [The Movie Database](https://www.themoviedb.org/en) and posting them to [Arweave](https://www.arweave.org).
 
