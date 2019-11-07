@@ -5,6 +5,8 @@
 
 This is the repository of [filmPosterArchive](/bin/filmPosterArchive.sh) - a tool for grabbing the day's latest posters from [The Movie Database](https://www.themoviedb.org/en) and posting them to [Arweave](https://www.arweave.org).
 
+![](/images/tmdb.png)
+
 ## Table of Contents
 
 - [Usage](#usage)
@@ -62,5 +64,3 @@ Contributions welcome - please email [Steve Huckle](https://glowkeeper.github.io
 GNU General Public License v3.0
 
 Please refer to the file: [LICENSE](/docs/LICENSE.txt) for the full text.
-
-![](/images/tmdb.png)
