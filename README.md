@@ -32,6 +32,7 @@ Below describes a demo' of **ReportAid**.
 
 - [hooverd](https://github.com/samcamwilliams/hooverd)
 - [jq](https://stedolan.github.io/jq/)
+- [The Movie Database](https://www.themoviedb.org)
 
 ## Install
 
@@ -46,6 +47,8 @@ After cloning this repository, download and install the dependencies (if you hav
 - [hooverd](https://github.com/samcamwilliams/hooverd)
 - [jq](https://stedolan.github.io/jq/)
 
+You will also need to obtain an API key from [The Movie Database](https://www.themoviedb.org)
+
 ## Maintainer
 
 [Steve Huckle](https://glowkeeper.github.io/).
@@ -58,4 +61,6 @@ Contributions welcome - please email [Steve Huckle](https://glowkeeper.github.io
 
 GNU General Public License v3.0
 
-Please refer to the file: [COPYING](/docs/COPYING.txt) for the full text.
+Please refer to the file: [LICENSE](/docs/LICENSE.txt) for the full text.
+
+![](/images/tmdb.png)
