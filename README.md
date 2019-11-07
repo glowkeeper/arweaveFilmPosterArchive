@@ -20,7 +20,7 @@ This is the repository of [filmPosterArchive](/bin/filmPosterArchive.sh) - a too
 
 ## Usage
 
-Below describes a demo' of **ReportAid**.
+You can run [filmPosterArchive.sh](/bin/filmPosterArchive.sh) from the command line, and it will grab today's and yesterday's [The Movie Database](https://www.themoviedb.org) posters.
 
 ## Demo
 
