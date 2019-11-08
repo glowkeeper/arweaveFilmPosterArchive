@@ -24,7 +24,7 @@ Please fulfil the [dependencies](#dependencies) beforehand - #tl;dr, you must be
 
 `bin/filmArchiver.sh -k | --key YOUR_TMDB_API_KEY [-p | --prude] [-m | --movie-only]`
 
-(If you do not want to include adult films, supply the `-p` argument. If you do not want to add video releases, too - supply the `-m` argument. Those arguments are not provided by default since the [Maintainer](#maintainer) believes you should be free to self-censor)
+(If you do not want to include adult films, supply the `-p` argument. If you do not video releases, supply the `-m` argument).
 
 The final step of the script uses [hooverd](https://github.com/samcamwilliams/hooverd) to push some generated html to [Arweave](https://www.arweave.org). If all has gone well, the script will output a transaction key from [Arweave](https://www.arweave.org). It will look like this:
 
@@ -32,15 +32,15 @@ The final step of the script uses [hooverd](https://github.com/samcamwilliams/ho
 Transaction jUx4RHHb4kyP1-nit4zI_d9xkfzaSZ82RYLyjGmAgPY dispatched to arweave.net:443 with response: 200.
 ```
 
-You will need to use that key to load the file in a browser. e.g, [https://arweave.net/jUx4RHHb4kyP1-nit4zI_d9xkfzaSZ82RYLyjGmAgPY](https://arweave.net/jUx4RHHb4kyP1-nit4zI_d9xkfzaSZ82RYLyjGmAgPY)
+Once the transaction has been mined, you can load it in a browser. e.g, [https://arweave.net/jUx4RHHb4kyP1-nit4zI_d9xkfzaSZ82RYLyjGmAgPY](https://arweave.net/jUx4RHHb4kyP1-nit4zI_d9xkfzaSZ82RYLyjGmAgPY)
 
-You will need to wait for the transaction to be mined. For example, to check the status of the transaction `jUx4RHHb4kyP1-nit4zI_d9xkfzaSZ82RYLyjGmAgPY`, load the following: [https://arweave.net/tx/jUx4RHHb4kyP1-nit4zI_d9xkfzaSZ82RYLyjGmAgPY](https://arweave.net/tx/jUx4RHHb4kyP1-nit4zI_d9xkfzaSZ82RYLyjGmAgPY) - if that had not yet been mined, it would've returned `Pending` (it can take up to 10 minutes to mine [Arweave](https://www.arweave.org) transactions).
+To check the status of a transaction, e.g. `jUx4RHHb4kyP1-nit4zI_d9xkfzaSZ82RYLyjGmAgPY`, load the following: [https://arweave.net/tx/jUx4RHHb4kyP1-nit4zI_d9xkfzaSZ82RYLyjGmAgPY](https://arweave.net/tx/jUx4RHHb4kyP1-nit4zI_d9xkfzaSZ82RYLyjGmAgPY) - if that had not yet been mined, it would've returned `Pending` (it can take up to 10 minutes to mine [Arweave](https://www.arweave.org) transactions).
 
-Because the script finds the day's film releases, a good way of running the job is via cron:
+Because the script finds the day's film releases, a good way of running the job is via [cron](https://help.ubuntu.com/community/CronHowto):
 
 `59 23    * * *   /yourFilmArchiverRepos/binfilmArchiver.sh -k YOUR_TMDB_API_KEY >> /some/log/file 2>&1`
 
-That will run the script daily at 23:59. It should output the required transaction key to `/some/log/file`. You can then use that key to load the html as above.
+That will run the script daily at 23:59. It should output the required transaction key to `/some/log/file`. You can then use that key to load the html (as above).
 
 ## Maintainer-Outputs
 
@@ -52,6 +52,10 @@ That will run the script daily at 23:59. It should output the required transacti
 - [jq](https://stedolan.github.io/jq/)
 - [The Movie Database](https://www.themoviedb.org)
 
+## Install
+
+Clone this repository, change to its home directory, and type `npm install` (but see [dependencies](#dependencies)).
+
 ## Dependencies
 
 You must fulfil the following dependencies.
@@ -62,7 +66,7 @@ You must fulfil the following dependencies.
 - [hooverd](https://github.com/samcamwilliams/hooverd)
 - [jq](https://stedolan.github.io/jq/)
 
-You will need to create an account on [The Movie Database](https://www.themoviedb.org) and get one of their API keys (you supply that key to [filmArchiver.sh](/bin/filmArchiver.sh) via the `-k` argument).
+You will need to create an account on [The Movie Database](https://www.themoviedb.org) and get one of their API keys (you supply that key to [filmArchiver.sh](/bin/filmArchiver.sh) via the `-k` argument - see [usage](#usage)).
 
 You will also need to have some [arweave tokens](https://tokens.arweave.org/) in an _arweave keyfile_ that you supply to [hooverd](https://github.com/samcamwilliams/hooverd), which must be running on port _1908_. The easiest way to do that is to daemonise [hooverd](https://github.com/samcamwilliams/hooverd), using [pm2](https://github.com/Unitech/pm2). Additionally, I put my _arweave keyfile_ (mine is called _arweave-keyfile-oJViU9iJRPS-TcFmvVyJhxD5EBqErtMtgXfDdf9UWY4.json_) in the home directory of my cloned [hooverd](https://github.com/samcamwilliams/hooverd) repository. I also amended the scripts section of [hooverd's](https://github.com/samcamwilliams/hooverd) `package.json` to include the following:
 
@@ -77,10 +81,6 @@ pm2 start "npm run start"
 ```
 
 With all dependencies fulfilled, you can run [filmArchiver.sh](/bin/filmArchiver.sh) as per [usage](#usage) instructions.
-
-## Install
-
-Clone this repository, change to its home directory, and type `npm install`.
 
 ## Maintainer
 
