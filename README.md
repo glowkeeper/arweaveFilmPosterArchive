@@ -69,19 +69,19 @@ You must fulfil the following dependencies.
 
 You will need to create an account on [The Movie Database](https://www.themoviedb.org) and get one of their API keys (you supply that key to [filmArchiver.sh](/bin/filmArchiver.sh) via the `-k` argument - see [usage](#usage)).
 
-You will also need to have some [arweave tokens](https://tokens.arweave.org/) in an _arweave keyfile_ that you supply to [hooverd](https://github.com/samcamwilliams/hooverd), which must be running on port _1908_. The easiest way to do that is to daemonise [hooverd](https://github.com/samcamwilliams/hooverd), using [pm2](https://github.com/Unitech/pm2). Additionally, I put my _arweave keyfile_ (mine is called _arweave-keyfile-oJViU9iJRPS-TcFmvVyJhxD5EBqErtMtgXfDdf9UWY4.json_) in the home directory of my cloned [hooverd](https://github.com/samcamwilliams/hooverd) repository. I also amended the scripts section of [hooverd's](https://github.com/samcamwilliams/hooverd) `package.json` to include the following:
+You will also need to have some [arweave tokens](https://tokens.arweave.org/) in an _arweave keyfile_ that you supply to [hooverd](https://github.com/samcamwilliams/hooverd), which must be running on port _1908_. The easiest way to do that is to daemonise [hooverd](https://github.com/samcamwilliams/hooverd), using [pm2](https://github.com/Unitech/pm2). At the time of writing, [hooverd](https://github.com/samcamwilliams/hooverd) does not appear to be a public [npm](https://www.npmjs.com/) package, so first clone the [hooverd](https://github.com/samcamwilliams/hooverd) repository. Then, put your _arweave keyfile_ (e.g _arweave-keyfile-oJViU9iJRPS-TcFmvVyJhxD5EBqErtMtgXfDdf9UWY4.json_) in the home directory of your cloned [hooverd](https://github.com/samcamwilliams/hooverd) repository and amend the _scripts_ section of [hooverd's](https://github.com/samcamwilliams/hooverd) `package.json` to include the following:
 
 ```
 "start": "node hooverd --wallet-file ./arweave-keyfile-oJViU9iJRPS-TcFmvVyJhxD5EBqErtMtgXfDdf9UWY4.json"
 ```
 
-Then I daemonised [hooverd](https://github.com/samcamwilliams/hooverd):
+Then daemonise [hooverd](https://github.com/samcamwilliams/hooverd):
 
 ```
 pm2 start "npm run start"
 ```
 
-With all dependencies fulfilled, you can run [filmArchiver.sh](/bin/filmArchiver.sh) as per [usage](#usage) instructions.
+You can then run [filmArchiver.sh](/bin/filmArchiver.sh) as per [usage](#usage) instructions.
 
 ## Maintainer
 
