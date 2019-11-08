@@ -24,9 +24,7 @@ testHooverD ()
 postToArweave ()
 {
 
-  #local FILE="$1"
-  #curl -s -k -X POST -F "image=@${FILE}" http://localhost:1908/raw
-  cat ${OUTPUT_FILENAME} | curl -X POST http://localhost:1908/raw -H "x-tag-content-type: text/html" -d @-
+  cat ${OUTPUT_FILENAME} | curl -s -X POST http://localhost:1908/raw -H "x-tag-content-type: text/html" -d @-
 
 }
 
@@ -38,7 +36,7 @@ createHTML ()
   DATE="$(date)"
   echo "<h1>Film Releases for ${DATE}</h1>" >> "${OUTPUT_FILENAME}"
 
-  TMDB_IMG_URL="$(pwd)/../images/tmdb.png"
+  TMDB_IMG_URL="${BASEDIR}/../images/tmdb.png"
   TMDB_IMG="$(base64 ${TMDB_IMG_URL})"
   TMDB_IMG_SRC="data:image/png;base64, ${TMDB_IMG}"
   echo "<img src=\"${TMDB_IMG_SRC}\" alt=\"TMDB Logo\">" >> "${OUTPUT_FILENAME}"
@@ -123,13 +121,10 @@ getFilms ()
         THIS_POSTER_URL="${BASE_TMDB_IMAGE_URL}${THIS_POSTER}"
         TEMP_POSTER="${TMP_DIR}/${THIS_POSTER}"
         curl -s ${THIS_POSTER_URL} > ${TEMP_POSTER}
-        #postToArweave ${TEMP_POSTER}
-        #rm ${TEMP_POSTER}
+
       fi
 
     done
-
-    #rm ${TMP_COUNTER_FILE}
 
     let COUNTER++
 
@@ -142,24 +137,15 @@ testHooverD
 TMP_DIR="/tmp/filmArchiver$$"
 mkdir "${TMP_DIR}"
 
-HTML_HEADER="$(pwd)/../templates/header.html"
-HTML_TEMPLATE="$(pwd)/../templates/body.html"
-HTML_FOOTER="$(pwd)/../templates/footer.html"
+BASEDIR=$(dirname "$0")
+HTML_HEADER="${BASEDIR}/../templates/header.html"
+HTML_TEMPLATE="${BASEDIR}/../templates/body.html"
+HTML_FOOTER="${BASEDIR}/../templates/footer.html"
 OUTPUT_FILENAME="${TMP_DIR}/filmArchiver.html"
 
 createHTML
 
-#API_KEY="?api_key=b6242bd7de50b9dc95a670a56759bf57"
 API_KEY=""
-
-BASE_TMDB_IMAGE_URL="https://image.tmdb.org/t/p/w500"
-BASE_TMDB_DISCOVER_URL="https://api.themoviedb.org/3/discover/movie"
-
-DATE_TODAY=$(date --date today '+%Y-%m-%d')
-SORT="&sort_by=popularity.desc"
-RELEASE_FIRST="&primary_release_date.gte=${DATE_TODAY}"
-RELEASE_LAST="&primary_release_date.lte=${DATE_TODAY}"
-
 ADULT="&include_adult=true"
 MOVIE="&include_video=true"
 
@@ -185,7 +171,15 @@ then
 
 fi
 
+BASE_TMDB_IMAGE_URL="https://image.tmdb.org/t/p/w500"
+BASE_TMDB_DISCOVER_URL="https://api.themoviedb.org/3/discover/movie"
+DATE_TODAY=$(date --date today '+%Y-%m-%d')
+SORT="&sort_by=popularity.desc"
+RELEASE_FIRST="&primary_release_date.gte=${DATE_TODAY}"
+RELEASE_LAST="&primary_release_date.lte=${DATE_TODAY}"
+
 BASE_URL="${BASE_TMDB_DISCOVER_URL}${API_KEY}${MOVIE}${ADULT}${SORT}${RELEASE_FIRST}${RELEASE_LAST}"
+
 TMP_FILENAME="tmdb.json"
 TMP_FILE="${TMP_DIR}/${TMP_FILENAME}"
 
@@ -195,5 +189,5 @@ appendFooter
 
 postToArweave
 
-#rm -rf ${TMP_DIR}
+rm -rf ${TMP_DIR}
 exit 0
