@@ -55,11 +55,11 @@ createRow ()
 
     THIS_POSTER=$(echo $POSTER | sed 's/"//g' | sed 's/^\///')
     THIS_POSTER_URL="${BASE_TMDB_IMAGE_URL}/${THIS_POSTER}"
-    TEMP_POSTER="/tmp/${THIS_POSTER}"
+    TEMP_POSTER="${TMP_DIR}/${THIS_POSTER}"
     curl -s ${THIS_POSTER_URL} > ${TEMP_POSTER}
 
-    echo "<td class=\"overview\">${OVERVIEW}</th>" >> "${OUTPUT_FILENAME}"
     echo "<td class=\"img\"><img src=\"${THIS_POSTER}\" alt=\"${TITLE}\">" >> "${OUTPUT_FILENAME}"
+    echo "<td class=\"overview\">${OVERVIEW}</th>" >> "${OUTPUT_FILENAME}"
 
   else
 
@@ -96,7 +96,7 @@ getFilms ()
 
     PAGE="&page=${COUNTER}"
     URL="${BASE_URL}${PAGE}"
-    TMP_COUNTER_FILE="/tmp/${COUNTER}_${TMP_FILENAME}"
+    TMP_COUNTER_FILE="${TMP_DIR}/${COUNTER}_${TMP_FILENAME}"
     curl -s ${URL} > ${TMP_COUNTER_FILE}
 
     for INDEX in $(jq '.results | keys | .[]' ${TMP_COUNTER_FILE})
@@ -113,7 +113,7 @@ getFilms ()
 
         THIS_POSTER=$(echo $POSTER | sed 's/"//g')
         THIS_POSTER_URL="${BASE_TMDB_IMAGE_URL}${THIS_POSTER}"
-        TEMP_POSTER="/tmp${THIS_POSTER}"
+        TEMP_POSTER="${TMP_DIR}/${THIS_POSTER}"
         curl -s ${THIS_POSTER_URL} > ${TEMP_POSTER}
         #postToArweave ${TEMP_POSTER}
         #rm ${TEMP_POSTER}
@@ -131,10 +131,13 @@ getFilms ()
 
 testHooverD
 
+TMP_DIR="/tmp/filmArchiver$$"
+mkdir "${TMP_DIR}"
+
 HTML_HEADER="$(pwd)/../templates/header.html"
 HTML_TEMPLATE="$(pwd)/../templates/body.html"
 HTML_FOOTER="$(pwd)/../templates/footer.html"
-OUTPUT_FILENAME="/tmp/filmArchiver$$.html"
+OUTPUT_FILENAME="${TMP_DIR}/filmArchiver.html"
 
 createHTML
 
@@ -145,6 +148,7 @@ BASE_TMDB_IMAGE_URL="https://image.tmdb.org/t/p/w500"
 BASE_TMDB_DISCOVER_URL="https://api.themoviedb.org/3/discover/movie"
 
 DATE_TODAY=$(date --date today '+%Y-%m-%d')
+SORT="&sort_by=popularity.desc"
 RELEASE_FIRST="&primary_release_date.gte=${DATE_TODAY}"
 RELEASE_LAST="&primary_release_date.lte=${DATE_TODAY}"
 
@@ -173,9 +177,9 @@ then
 
 fi
 
-BASE_URL="${BASE_TMDB_DISCOVER_URL}${API_KEY}${MOVIE}${ADULT}${RELEASE_FIRST}${RELEASE_LAST}"
+BASE_URL="${BASE_TMDB_DISCOVER_URL}${API_KEY}${MOVIE}${ADULT}${SORT}${RELEASE_FIRST}${RELEASE_LAST}"
 TMP_FILENAME="tmdb.json"
-TMP_FILE="/tmp/${TMP_FILENAME}"
+TMP_FILE="${TMP_DIR}/${TMP_FILENAME}"
 
 NUM_PAGES=$(getNumPages)
 getFilms $NUM_PAGES
