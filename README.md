@@ -10,7 +10,7 @@ This is the repository of [filmArchiver.sh](/bin/filmArchiver.sh) - a tool for g
 ## Table of Contents
 
 - [Usage](#usage)
-- [Maintainer-Outputs](#maintainer-outputs)
+- [Example Output](#example-output)
 - [Built Using](#built-using)  
 - [Dependencies](#dependencies)
 - [Install](#install)
@@ -20,11 +20,11 @@ This is the repository of [filmArchiver.sh](/bin/filmArchiver.sh) - a tool for g
 
 ## Usage
 
-Please fulfil the [dependencies](#dependencies) beforehand - #tl;dr, you must be running [hooverd](https://github.com/samcamwilliams/hooverd), for which you'll need some [arweave tokens](https://tokens.arweave.org/). You'll also need an API key from [The Movie Database](https://www.themoviedb.org).
+Please fulfil the [dependencies](#dependencies) beforehand #tl;dr, you must be running [hooverd](https://github.com/samcamwilliams/hooverd), for which you'll need some [arweave tokens](https://tokens.arweave.org/). You'll also need an API key from [The Movie Database](https://www.themoviedb.org).
 
 `bin/filmArchiver.sh -k | --key YOUR_TMDB_API_KEY [-p | --prude] [-m | --movie-only]`
 
-(If you do not want to include adult films, supply the `-p` argument. If you do not video releases, supply the `-m` argument).
+(If you do not want to include adult films, supply the `-p` argument. If you do not want video releases, supply the `-m` argument).
 
 The final step of the script uses [hooverd](https://github.com/samcamwilliams/hooverd) to push some generated html to [Arweave](https://www.arweave.org). If all has gone well, the script will output a transaction key from [Arweave](https://www.arweave.org). It will look like this:
 
@@ -36,21 +36,22 @@ Once the transaction has been mined, you can load it in a browser. e.g, [https:/
 
 To check the status of a transaction, e.g. `jUx4RHHb4kyP1-nit4zI_d9xkfzaSZ82RYLyjGmAgPY`, load the following: [https://arweave.net/tx/jUx4RHHb4kyP1-nit4zI_d9xkfzaSZ82RYLyjGmAgPY](https://arweave.net/tx/jUx4RHHb4kyP1-nit4zI_d9xkfzaSZ82RYLyjGmAgPY) - if that had not yet been mined, it would've returned `Pending` (it can take up to 10 minutes to mine [Arweave](https://www.arweave.org) transactions).
 
-Because the script finds the day's film releases, a good way of running the job is via [cron](https://help.ubuntu.com/community/CronHowto):
+Because the script finds the day's film releases, a good way of running [filmArchiver.sh](/bin/filmArchiver.sh) is via [cron](https://help.ubuntu.com/community/CronHowto):
 
 `59 23    * * *   /yourFilmArchiverRepos/binfilmArchiver.sh -k YOUR_TMDB_API_KEY >> /some/log/file 2>&1`
 
 That will run the script daily at 23:59. It should output the required transaction key to `/some/log/file`. You can then use that key to load the html (as above).
 
-## Maintainer-Outputs
+## Example Output
 
 [Film Releases for Fri 8 Nov 16:21:01 GMT 2019](https://arweave.net/jUx4RHHb4kyP1-nit4zI_d9xkfzaSZ82RYLyjGmAgPY).
 
 ## Built Using
 
+- [Arweave](https://www.arweave.org)
+- [The Movie Database](https://www.themoviedb.org)
 - [hooverd](https://github.com/samcamwilliams/hooverd)
 - [jq](https://stedolan.github.io/jq/)
-- [The Movie Database](https://www.themoviedb.org)
 
 ## Install
 
