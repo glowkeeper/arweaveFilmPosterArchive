@@ -22,7 +22,7 @@ This is the repository of [filmArchiver.sh](/bin/filmArchiver.sh) - a tool for g
 
 Please fulfil the [dependencies](#dependencies) beforehand #tl;dr, you must be running [hooverd](https://github.com/samcamwilliams/hooverd), for which you'll need some [arweave tokens](https://tokens.arweave.org/). You'll also need an API key from [The Movie Database](https://www.themoviedb.org).
 
-`bin/filmArchiver.sh -k | --key YOUR_TMDB_API_KEY [-p | --prude] [-m | --movie-only]`
+`filmArchiver.sh -k | --key YOUR_TMDB_API_KEY [-p | --prude] [-m | --movie-only]`
 
 (If you do not want to include adult films, supply the `-p` argument. If you do not want video releases, supply the `-m` argument).
 
