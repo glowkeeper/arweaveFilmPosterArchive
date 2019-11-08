@@ -29,17 +29,64 @@ postToArweave ()
 
 }
 
-getNumPages ()
+createHTML ()
 {
 
-  TMP_FILE="/tmp/${TMP_FILENAME}"
-  curl -s ${BASE_URL} > ${TMP_FILE}
-  echo "$(jq '.total_pages' ${TMP_FILE})"
-  rm ${TMP_FILE}
+  cp "${HTML_HEADER}" "${OUTPUT_FILENAME}"
+  cat "${HTML_TEMPLATE}" >> "${OUTPUT_FILENAME}"
+  DATE="$(date)"
+  echo "<h1>Film Releses for ${DATE}</h1>" >> "${OUTPUT_FILENAME}"
 
 }
 
-getImages ()
+createRow ()
+{
+  POSTER="$1"
+  TITLE="$2"
+  OVERVIEW="$3"
+
+  echo "<tr>" >> "${OUTPUT_FILENAME}"
+  echo "<th colspan=2>${TITLE}</th>" >> "${OUTPUT_FILENAME}"
+  echo "</tr>" >> "${OUTPUT_FILENAME}"
+  echo "<tr>" >> "${OUTPUT_FILENAME}"
+
+  if [ $POSTER != "null" ]
+  then
+
+    THIS_POSTER=$(echo $POSTER | sed 's/"//g' | sed 's/^\///')
+    THIS_POSTER_URL="${BASE_TMDB_IMAGE_URL}/${THIS_POSTER}"
+    TEMP_POSTER="/tmp/${THIS_POSTER}"
+    curl -s ${THIS_POSTER_URL} > ${TEMP_POSTER}
+
+    echo "<td class=\"overview\">${OVERVIEW}</th>" >> "${OUTPUT_FILENAME}"
+    echo "<td class=\"img\"><img src=\"${THIS_POSTER}\" alt=\"${TITLE}\">" >> "${OUTPUT_FILENAME}"
+
+  else
+
+    echo "<td colspan=2>${OVERVIEW}</th>" >> "${OUTPUT_FILENAME}"
+
+  fi
+
+  echo "</tr>" >> "${OUTPUT_FILENAME}"
+
+}
+
+appendFooter ()
+{
+
+  cat "${HTML_FOOTER}" >> "${OUTPUT_FILENAME}"
+
+}
+
+getNumPages ()
+{
+
+  curl -s ${BASE_URL} > ${TMP_FILE}
+  echo "$(jq '.total_pages' ${TMP_FILE})"
+
+}
+
+getFilms ()
 {
 
   local NUM_PAGES=$1
@@ -52,8 +99,14 @@ getImages ()
     TMP_COUNTER_FILE="/tmp/${COUNTER}_${TMP_FILENAME}"
     curl -s ${URL} > ${TMP_COUNTER_FILE}
 
-    for POSTER in `jq '.results | .[].poster_path' ${TMP_COUNTER_FILE}`
+    for INDEX in $(jq '.results | keys | .[]' ${TMP_COUNTER_FILE})
     do
+
+      POSTER=$(jq -r ".results[${INDEX}].poster_path" ${TMP_COUNTER_FILE} | sed 's/"//g')
+      TITLE=$(jq -r ".results[${INDEX}].title" ${TMP_COUNTER_FILE})
+      OVERVIEW=$(jq -r ".results[${INDEX}].overview" ${TMP_COUNTER_FILE})
+
+      createRow "${POSTER}" "${TITLE}"  "${OVERVIEW}"
 
       if [ $POSTER != "null" ]
       then
@@ -62,13 +115,13 @@ getImages ()
         THIS_POSTER_URL="${BASE_TMDB_IMAGE_URL}${THIS_POSTER}"
         TEMP_POSTER="/tmp${THIS_POSTER}"
         curl -s ${THIS_POSTER_URL} > ${TEMP_POSTER}
-        postToArweave ${TEMP_POSTER}
-        rm ${TEMP_POSTER}
+        #postToArweave ${TEMP_POSTER}
+        #rm ${TEMP_POSTER}
       fi
 
     done
 
-    rm ${TMP_COUNTER_FILE}
+    #rm ${TMP_COUNTER_FILE}
 
     let COUNTER++
 
@@ -78,10 +131,17 @@ getImages ()
 
 testHooverD
 
+HTML_HEADER="$(pwd)/../templates/header.html"
+HTML_TEMPLATE="$(pwd)/../templates/body.html"
+HTML_FOOTER="$(pwd)/../templates/footer.html"
+OUTPUT_FILENAME="/tmp/filmArchiver$$.html"
+
+createHTML
+
 #API_KEY="?api_key=b6242bd7de50b9dc95a670a56759bf57"
 API_KEY=""
 
-BASE_TMDB_IMAGE_URL="https://image.tmdb.org/t/p/original"
+BASE_TMDB_IMAGE_URL="https://image.tmdb.org/t/p/w500"
 BASE_TMDB_DISCOVER_URL="https://api.themoviedb.org/3/discover/movie"
 
 DATE_TODAY=$(date --date today '+%Y-%m-%d')
@@ -115,8 +175,12 @@ fi
 
 BASE_URL="${BASE_TMDB_DISCOVER_URL}${API_KEY}${MOVIE}${ADULT}${RELEASE_FIRST}${RELEASE_LAST}"
 TMP_FILENAME="tmdb.json"
+TMP_FILE="/tmp/${TMP_FILENAME}"
 
 NUM_PAGES=$(getNumPages)
-getImages $NUM_PAGES
+getFilms $NUM_PAGES
 
+appendFooter
+
+#rm ${TMP_FILE}
 exit 0
