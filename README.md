@@ -3,7 +3,7 @@
 [![standard-readme compliant](https://img.shields.io/badge/readme%20style-standard-brightgreen.svg?style=flat-square)](https://github.com/RichardLitt/standard-readme)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](/docs/prs.md) [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](/docs/LICENSE.txt)
 
-This is the repository of [filmArchiver.sh](/bin/filmArchiver.sh) - a tool for grabbing the day's latest posters from [The Movie Database](https://www.themoviedb.org/en) and posting them to [Arweave](https://www.arweave.org) (alongside a short description of the film).
+This is the repository of [filmArchiver.sh](/bin/filmArchiver.sh) - a tool for grabbing the day's latest posters from [The Movie Database](https://www.themoviedb.org/en) and posting them to [Arweave](https://www.arweave.org).
 
 ![](/images/tmdb.png)
 
@@ -12,8 +12,8 @@ This is the repository of [filmArchiver.sh](/bin/filmArchiver.sh) - a tool for g
 - [Usage](#usage)
 - [Example Output](#example-output)
 - [Built Using](#built-using)  
-- [Dependencies](#dependencies)
 - [Install](#install)
+  - [Dependencies](#dependencies)
 - [Maintainer](#maintainer)
 - [Contributing](#contributing)
 - [License](#license)
@@ -26,13 +26,13 @@ Please fulfil the [dependencies](#dependencies) beforehand #tl;dr, you must be r
 
 (If you do not want to include adult films, supply the `-p` argument. If you do not want video releases, supply the `-m` argument).
 
-The final step of the script uses [hooverd](https://github.com/samcamwilliams/hooverd) to push some generated html to [Arweave](https://www.arweave.org). If all has gone well, the script will output a transaction key from [Arweave](https://www.arweave.org). It will look like this:
+The final step of the script uses [hooverd](https://github.com/samcamwilliams/hooverd) to push some generated html to [Arweave](https://www.arweave.org). The script will output a transaction key from [Arweave](https://www.arweave.org). It will look like this:
 
 ```
 Transaction jUx4RHHb4kyP1-nit4zI_d9xkfzaSZ82RYLyjGmAgPY dispatched to arweave.net:443 with response: 200.
 ```
 
-Once the transaction has been mined, you can load it in a browser. e.g, [https://arweave.net/jUx4RHHb4kyP1-nit4zI_d9xkfzaSZ82RYLyjGmAgPY](https://arweave.net/jUx4RHHb4kyP1-nit4zI_d9xkfzaSZ82RYLyjGmAgPY)
+Once the transaction has been mined, you can load it in a browser. e.g, [https://arweave.net/jUx4RHHb4kyP1-nit4zI_d9xkfzaSZ82RYLyjGmAgPY](https://arweave.net/jUx4RHHb4kyP1-nit4zI_d9xkfzaSZ82RYLyjGmAgPY).
 
 To check the status of a transaction, e.g. `jUx4RHHb4kyP1-nit4zI_d9xkfzaSZ82RYLyjGmAgPY`, load the following: [https://arweave.net/tx/jUx4RHHb4kyP1-nit4zI_d9xkfzaSZ82RYLyjGmAgPY](https://arweave.net/tx/jUx4RHHb4kyP1-nit4zI_d9xkfzaSZ82RYLyjGmAgPY) - if that had not yet been mined, it would've returned `Pending` (it can take up to 10 minutes to mine [Arweave](https://www.arweave.org) transactions).
 
@@ -40,7 +40,7 @@ Because the script finds the day's film releases, a good way of running [filmArc
 
 `59 23    * * *   /yourFilmArchiverRepos/binfilmArchiver.sh -k YOUR_TMDB_API_KEY >> /some/log/file 2>&1`
 
-That will run the script daily at 23:59. It should output the required transaction key to `/some/log/file`. You can then use that key to load the html (as above).
+That will run the script daily at 23:59. It will output the required transaction key to `/some/log/file`. You can then use that key to load the html (as above).
 
 ## Example Output
 
@@ -57,7 +57,7 @@ That will run the script daily at 23:59. It should output the required transacti
 
 Clone this repository, change to its home directory, and type `npm install` (but see [dependencies](#dependencies)).
 
-## Dependencies
+### Dependencies
 
 You must fulfil the following dependencies.
 
