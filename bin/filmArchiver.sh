@@ -24,8 +24,9 @@ testHooverD ()
 postToArweave ()
 {
 
-  local FILE="$1"
-  curl -s -k -X POST -F "image=@${FILE}" http://localhost:1908/raw
+  #local FILE="$1"
+  #curl -s -k -X POST -F "image=@${FILE}" http://localhost:1908/raw
+  cat ${OUTPUT_FILENAME} | curl -X POST http://localhost:1908/raw -H "x-tag-content-type: text/html" -d @-
 
 }
 
@@ -35,7 +36,12 @@ createHTML ()
   cp "${HTML_HEADER}" "${OUTPUT_FILENAME}"
   cat "${HTML_TEMPLATE}" >> "${OUTPUT_FILENAME}"
   DATE="$(date)"
-  echo "<h1>Film Releses for ${DATE}</h1>" >> "${OUTPUT_FILENAME}"
+  echo "<h1>Film Releases for ${DATE}</h1>" >> "${OUTPUT_FILENAME}"
+
+  TMDB_IMG_URL="$(pwd)/../images/tmdb.png"
+  TMDB_IMG="$(base64 ${TMDB_IMG_URL})"
+  TMDB_IMG_SRC="data:image/png;base64, ${TMDB_IMG}"
+  echo "<img src=\"${TMDB_IMG_SRC}\" alt=\"TMDB Logo\">" >> "${OUTPUT_FILENAME}"
 
 }
 
@@ -57,13 +63,15 @@ createRow ()
     THIS_POSTER_URL="${BASE_TMDB_IMAGE_URL}/${THIS_POSTER}"
     TEMP_POSTER="${TMP_DIR}/${THIS_POSTER}"
     curl -s ${THIS_POSTER_URL} > ${TEMP_POSTER}
+    IMG="$(base64 ${TEMP_POSTER})"
+    IMG_SRC="data:image/jpeg;base64, ${IMG}"
 
-    echo "<td class=\"img\"><img src=\"${THIS_POSTER}\" alt=\"${TITLE}\">" >> "${OUTPUT_FILENAME}"
+    echo "<td class=\"img\"><img src=\"${IMG_SRC}\" alt=\"${TITLE}\">" >> "${OUTPUT_FILENAME}"
     echo "<td class=\"overview\">${OVERVIEW}</th>" >> "${OUTPUT_FILENAME}"
 
   else
 
-    echo "<td colspan=2>${OVERVIEW}</th>" >> "${OUTPUT_FILENAME}"
+    echo "<td colspan=2 class=\"overview\">${OVERVIEW}</th>" >> "${OUTPUT_FILENAME}"
 
   fi
 
@@ -183,8 +191,9 @@ TMP_FILE="${TMP_DIR}/${TMP_FILENAME}"
 
 NUM_PAGES=$(getNumPages)
 getFilms $NUM_PAGES
-
 appendFooter
 
-#rm ${TMP_FILE}
+postToArweave
+
+#rm -rf ${TMP_DIR}
 exit 0
