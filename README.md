@@ -32,7 +32,7 @@ The final step of the `filmArchiver.sh` script (which you'll find in the `bin` s
 Transaction jUx4RHHb4kyP1-nit4zI_d9xkfzaSZ82RYLyjGmAgPY dispatched to arweave.net:443 with response: 200.
 ```
 
-Once the transaction has been mined, you can load it in a browser. e.g, [https://arweave.net/jUx4RHHb4kyP1-nit4zI_d9xkfzaSZ82RYLyjGmAgPY](https://arweave.net/jUx4RHHb4kyP1-nit4zI_d9xkfzaSZ82RYLyjGmAgPY).
+Once the transaction has been mined, you can load it in a browser. e.g, [https://arweave.net/jUx4RHHb4kyP1-nit4zI_d9xkfzaSZ82RYLyjGmAgPY](https://arweave.net/jUx4RHHb4kyP1-nit4zI_d9xkfzaSZ82RYLyjGmAgPY). That will display the day's international film releases. Enjoy!
 
 To check the status of a transaction, e.g. `jUx4RHHb4kyP1-nit4zI_d9xkfzaSZ82RYLyjGmAgPY`, load the following: [https://arweave.net/tx/jUx4RHHb4kyP1-nit4zI_d9xkfzaSZ82RYLyjGmAgPY](https://arweave.net/tx/jUx4RHHb4kyP1-nit4zI_d9xkfzaSZ82RYLyjGmAgPY) - if that had not yet been mined, it would've returned `Pending` (it can take up to 10 minutes to mine [Arweave](https://www.arweave.org) transactions).
 
