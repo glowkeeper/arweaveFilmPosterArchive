@@ -34,7 +34,7 @@ createHTML ()
   cp "${HTML_HEADER}" "${OUTPUT_FILENAME}"
   cat "${HTML_TEMPLATE}" >> "${OUTPUT_FILENAME}"
   DATE="$(date)"
-  echo "<h1>Film Releases for ${DATE}</h1>" >> "${OUTPUT_FILENAME}"
+  echo "<h1>International Film Releases for ${DATE}</h1>" >> "${OUTPUT_FILENAME}"
 
   TMDB_IMG_URL="${BASEDIR}/../images/tmdb.png"
   TMDB_IMG="$(base64 ${TMDB_IMG_URL})"

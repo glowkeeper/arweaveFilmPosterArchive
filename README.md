@@ -26,7 +26,7 @@ Please fulfil the [dependencies](#dependencies) beforehand #tl;dr, you must be r
 
 (If you do not want to include adult films, supply the `-p` argument. If you do not want video releases, supply the `-m` argument).
 
-The final step of the script uses [hooverd](https://github.com/samcamwilliams/hooverd) to push some generated html to [Arweave](https://www.arweave.org). The script will output a transaction key from [Arweave](https://www.arweave.org). It will look like this:
+The final step of the `filmArchiver.sh` script (which you'll find in the `bin` subdirectory) uses [hooverd](https://github.com/samcamwilliams/hooverd) to push some generated html to [Arweave](https://www.arweave.org). The script will output a transaction key from [Arweave](https://www.arweave.org). It will look like this:
 
 ```
 Transaction jUx4RHHb4kyP1-nit4zI_d9xkfzaSZ82RYLyjGmAgPY dispatched to arweave.net:443 with response: 200.
@@ -44,7 +44,8 @@ That will run the script daily at 23:59. It will output the required transaction
 
 ## Example Output
 
-[Film Releases for Fri 8 Nov 16:21:01 GMT 2019](https://arweave.net/jUx4RHHb4kyP1-nit4zI_d9xkfzaSZ82RYLyjGmAgPY).
+- [Film Releases for Sat 9 Nov 13:52:01 GMT 2019](https://arweave.net/HtXA0tn_KdTTy9GgBrhMJ3yrYb4nRymkEgUNbKHTdA8)
+- [Film Releases for Fri 8 Nov 16:21:01 GMT 2019](https://arweave.net/jUx4RHHb4kyP1-nit4zI_d9xkfzaSZ82RYLyjGmAgPY)
 
 ## Built Using
 
@@ -55,11 +56,9 @@ That will run the script daily at 23:59. It will output the required transaction
 
 ## Install
 
-Clone this repository, change to its home directory, and type `npm install` (but see [dependencies](#dependencies)).
+Clone this repository and install all [dependencies](#dependencies).
 
 ### Dependencies
-
-You must fulfil the following dependencies.
 
 - The script runs on flavours of Linux (it will probably work on MacOS, too, but that has not been tested)
 - [node](https://nodejs.org/en/)
@@ -67,12 +66,18 @@ You must fulfil the following dependencies.
 - [hooverd](https://github.com/samcamwilliams/hooverd)
 - [jq](https://stedolan.github.io/jq/)
 
-You will need to create an account on [The Movie Database](https://www.themoviedb.org) and get one of their API keys (you supply that key to [filmArchiver.sh](/bin/filmArchiver.sh) via the `-k` argument - see [usage](#usage)).
+You will need to create an account on [The Movie Database](https://www.themoviedb.org) and get one of their API keys (you supply that key to [filmArchiver.sh](/bin/filmArchiver.sh) via the `-k` argument - see [usage](#usage)). You will also need to have some [arweave tokens](https://tokens.arweave.org/).
 
-You will also need to have some [arweave tokens](https://tokens.arweave.org/) in an _arweave keyfile_ that you supply to [hooverd](https://github.com/samcamwilliams/hooverd), which must be running on port _1908_. The easiest way to do that is to daemonise [hooverd](https://github.com/samcamwilliams/hooverd), using [pm2](https://github.com/Unitech/pm2). At the time of writing, [hooverd](https://github.com/samcamwilliams/hooverd) does not appear to be a public [npm](https://www.npmjs.com/) package, so first clone the [hooverd](https://github.com/samcamwilliams/hooverd) repository. Then, put your _arweave keyfile_ (e.g _arweave-keyfile-oJViU9iJRPS-TcFmvVyJhxD5EBqErtMtgXfDdf9UWY4.json_) in the home directory of your cloned [hooverd](https://github.com/samcamwilliams/hooverd) repository and amend the _scripts_ section of [hooverd's](https://github.com/samcamwilliams/hooverd) `package.json` to include the following:
+Your [arweave tokens](https://tokens.arweave.org/) will come in an _arweave keyfile_ that you supply to [hooverd](https://github.com/samcamwilliams/hooverd), which must be monitoring port _1908_. The easiest way to do that is to daemonise [hooverd](https://github.com/samcamwilliams/hooverd), using [pm2](https://github.com/Unitech/pm2). At the time of writing, [hooverd](https://github.com/samcamwilliams/hooverd) does not appear to be a public [npm](https://www.npmjs.com/) package, so first clone the [hooverd](https://github.com/samcamwilliams/hooverd) repository. Then, put your _arweave keyfile_ (e.g _arweave-keyfile-oJViU9iJRPS-TcFmvVyJhxD5EBqErtMtgXfDdf9UWY4.json_) in the home directory of your cloned [hooverd](https://github.com/samcamwilliams/hooverd) repository and amend the _scripts_ section of [hooverd's](https://github.com/samcamwilliams/hooverd) `package.json` to include the following:
 
 ```
-"start": "node hooverd --wallet-file ./arweave-keyfile-oJViU9iJRPS-TcFmvVyJhxD5EBqErtMtgXfDdf9UWY4.json"
+"start": "node hooverd --wallet-file ./YOUR_ARWEAVE_KEYFILE"
+```
+
+You will need to install [hooverd's](https://github.com/samcamwilliams/hooverd) node dependencies:
+
+```
+npm install
 ```
 
 Then daemonise [hooverd](https://github.com/samcamwilliams/hooverd):
