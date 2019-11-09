@@ -44,8 +44,8 @@ That will run the script daily at 23:59. It will output the required transaction
 
 ## Example Output
 
-- [Film Releases for Sat 9 Nov 13:52:01 GMT 2019](https://arweave.net/HtXA0tn_KdTTy9GgBrhMJ3yrYb4nRymkEgUNbKHTdA8)
-- [Film Releases for Fri 8 Nov 16:21:01 GMT 2019](https://arweave.net/jUx4RHHb4kyP1-nit4zI_d9xkfzaSZ82RYLyjGmAgPY)
+- [International Film Releases for Sat 9 Nov 13:52:50 GMT 2019](https://arweave.net/HtXA0tn_KdTTy9GgBrhMJ3yrYb4nRymkEgUNbKHTdA8)
+- [International Film Releases for Fri 8 Nov 16:21:01 GMT 2019](https://arweave.net/jUx4RHHb4kyP1-nit4zI_d9xkfzaSZ82RYLyjGmAgPY)
 
 ## Built Using
 
