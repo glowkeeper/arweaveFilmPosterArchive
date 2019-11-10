@@ -29,12 +29,12 @@ Please fulfil the [dependencies](#dependencies) beforehand #tl;dr, you must be r
 The final step of the `filmArchiver.sh` script (which you'll find in the `bin` subdirectory) uses [hooverd](https://github.com/samcamwilliams/hooverd) to push some generated html to [Arweave](https://www.arweave.org). The script will output a transaction key from [Arweave](https://www.arweave.org). It will look like this:
 
 ```
-Transaction jUx4RHHb4kyP1-nit4zI_d9xkfzaSZ82RYLyjGmAgPY dispatched to arweave.net:443 with response: 200.
+Transaction HtXA0tn_KdTTy9GgBrhMJ3yrYb4nRymkEgUNbKHTdA8 dispatched to arweave.net:443 with response: 200.
 ```
 
-Once the transaction has been mined, you can load it in a browser. e.g, [https://arweave.net/jUx4RHHb4kyP1-nit4zI_d9xkfzaSZ82RYLyjGmAgPY](https://arweave.net/jUx4RHHb4kyP1-nit4zI_d9xkfzaSZ82RYLyjGmAgPY). That will display the day's international film releases. Enjoy!
+Once the transaction has been mined, you can load it in a browser. e.g, [https://arweave.net/HtXA0tn_KdTTy9GgBrhMJ3yrYb4nRymkEgUNbKHTdA8](https://arweave.net/HtXA0tn_KdTTy9GgBrhMJ3yrYb4nRymkEgUNbKHTdA8). That will display the day's international film releases (looks especially good on mobile). Enjoy!
 
-To check the status of a transaction, e.g. `jUx4RHHb4kyP1-nit4zI_d9xkfzaSZ82RYLyjGmAgPY`, load the following: [https://arweave.net/tx/jUx4RHHb4kyP1-nit4zI_d9xkfzaSZ82RYLyjGmAgPY](https://arweave.net/tx/jUx4RHHb4kyP1-nit4zI_d9xkfzaSZ82RYLyjGmAgPY) - if that had not yet been mined, it would've returned `Pending` (it can take up to 10 minutes to mine [Arweave](https://www.arweave.org) transactions).
+To check the status of a transaction, e.g. `HtXA0tn_KdTTy9GgBrhMJ3yrYb4nRymkEgUNbKHTdA8`, load the following: [https://arweave.net/tx/HtXA0tn_KdTTy9GgBrhMJ3yrYb4nRymkEgUNbKHTdA8](https://arweave.net/tx/HtXA0tn_KdTTy9GgBrhMJ3yrYb4nRymkEgUNbKHTdA8) - if that had not yet been mined, it would've returned `Pending` (it can take up to 10 minutes to mine [Arweave](https://www.arweave.org) transactions).
 
 Because the script finds the day's film releases, a good way of running [filmArchiver.sh](/bin/filmArchiver.sh) is via [cron](https://help.ubuntu.com/community/CronHowto):
 
@@ -44,8 +44,8 @@ That will run the script daily at 23:59. It will output the required transaction
 
 ## Example Output
 
+- [International Film Releases for Sun 10 Nov 19:49:02 GMT 2019](https://arweave.net/2ILrvG3tg7Og0zKE2i2XiaRgipN3fN1iVWb_reB8q2g)
 - [International Film Releases for Sat 9 Nov 13:52:50 GMT 2019](https://arweave.net/HtXA0tn_KdTTy9GgBrhMJ3yrYb4nRymkEgUNbKHTdA8)
-- [International Film Releases for Fri 8 Nov 16:21:01 GMT 2019](https://arweave.net/jUx4RHHb4kyP1-nit4zI_d9xkfzaSZ82RYLyjGmAgPY)
 
 ## Built Using
 
